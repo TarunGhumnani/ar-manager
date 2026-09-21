@@ -46,11 +46,11 @@ export default async function StatementPage({ searchParams }: { searchParams: SP
       </div>
 
       {s && customer && (
-        <section className="rounded-lg border border-slate-200 bg-white p-6 print:border-0 print:p-0">
+        <section className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 print:border-0 print:p-0">
           <div className="mb-4 flex flex-wrap justify-between gap-4">
             <div>
               <div className="text-lg font-semibold">{SELLER.name}</div>
-              <div className="text-sm text-slate-600">{SELLER.address}</div>
+              <div className="text-sm text-slate-600 dark:text-slate-400">{SELLER.address}</div>
             </div>
             <div className="text-right text-sm">
               <div className="text-base font-semibold">Statement of account</div>
@@ -59,7 +59,7 @@ export default async function StatementPage({ searchParams }: { searchParams: SP
           </div>
           <div className="mb-4 text-sm">
             <div className="font-medium">{customer.name} ({customer.code})</div>
-            <div className="text-slate-600">{customer.city}, {customer.state}{customer.gstin ? ` · GSTIN ${customer.gstin}` : ''}</div>
+            <div className="text-slate-600 dark:text-slate-400">{customer.city}, {customer.state}{customer.gstin ? ` · GSTIN ${customer.gstin}` : ''}</div>
           </div>
           <Table>
             <thead>
@@ -70,13 +70,13 @@ export default async function StatementPage({ searchParams }: { searchParams: SP
             </thead>
             <tbody>
               <tr className="font-medium">
-                <td className={td}>{fmtDate(from)}</td><td className={td} /><td className={td}>Opening balance</td>
+                <td className={`${td} whitespace-nowrap`}>{fmtDate(from)}</td><td className={td} /><td className={td}>Opening balance</td>
                 <td className={td} /><td className={td} /><td className={tdR}>{balance(s.opening)}</td>
               </tr>
               {s.lines.map((l, i) => (
                 <tr key={i}>
-                  <td className={td}>{fmtDate(l.date)}</td>
-                  <td className={td}>{l.docNo}</td>
+                  <td className={`${td} whitespace-nowrap`}>{fmtDate(l.date)}</td>
+                  <td className={`${td} whitespace-nowrap`}>{l.docNo}</td>
                   <td className={td}>{l.particulars}</td>
                   <td className={tdR}>{l.debit ? money(l.debit) : ''}</td>
                   <td className={tdR}>{l.credit ? money(l.credit) : ''}</td>
@@ -84,9 +84,9 @@ export default async function StatementPage({ searchParams }: { searchParams: SP
                 </tr>
               ))}
             </tbody>
-            <tfoot className="border-t-2 border-slate-300 font-semibold">
+            <tfoot className="border-t-2 border-slate-300 dark:border-slate-600 font-semibold">
               <tr>
-                <td className={td}>{fmtDate(to)}</td><td className={td} /><td className={td}>Closing balance</td>
+                <td className={`${td} whitespace-nowrap`}>{fmtDate(to)}</td><td className={td} /><td className={td}>Closing balance</td>
                 <td className={tdR}>{money(s.lines.reduce((a, l) => a + l.debit, 0))}</td>
                 <td className={tdR}>{money(s.lines.reduce((a, l) => a + l.credit, 0))}</td>
                 <td className={tdR}>{balance(s.closing)}</td>
