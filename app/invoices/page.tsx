@@ -54,7 +54,7 @@ export default async function InvoicesPage({ searchParams }: { searchParams: SP 
           <label className="flex items-center gap-1">From <input type="date" name="from" defaultValue={f.from} className={`${input} w-36`} /></label>
           <label className="flex items-center gap-1">To <input type="date" name="to" defaultValue={f.to} className={`${input} w-36`} /></label>
           <button className={btnLight}>Filter</button>
-          <Link href={`/invoices?asof=${asof}`} className="text-blue-700 underline">Clear</Link>
+          <Link href={`/invoices?asof=${asof}`} className="text-blue-700 dark:text-blue-400 underline">Clear</Link>
         </form>
         <Table>
           <thead>
@@ -73,8 +73,8 @@ export default async function InvoicesPage({ searchParams }: { searchParams: SP 
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.invoice.id} className={r.status === 'Overdue' ? 'bg-red-50 text-red-900' : r.status === 'Cancelled' ? 'text-slate-400' : ''}>
-                <td className={td}><Link className="text-blue-700 hover:underline" href={`/invoices/${r.invoice.id}?asof=${asof}`}>{r.invoice.invoiceNo}</Link></td>
+              <tr key={r.invoice.id} className={r.status === 'Overdue' ? 'bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200' : r.status === 'Cancelled' ? 'text-slate-400 dark:text-slate-500' : ''}>
+                <td className={td}><Link className="text-blue-700 dark:text-blue-400 hover:underline" href={`/invoices/${r.invoice.id}?asof=${asof}`}>{r.invoice.invoiceNo}</Link></td>
                 <td className={td}>{r.customerName}</td>
                 <td className={td}>{fmtDate(r.invoice.invoiceDate)}</td>
                 <td className={td}>{fmtDate(r.invoice.dueDate)}</td>
@@ -92,7 +92,7 @@ export default async function InvoicesPage({ searchParams }: { searchParams: SP 
             ))}
             {!rows.length && <tr><td className={td} colSpan={10}>No invoices match.</td></tr>}
           </tbody>
-          <tfoot className="border-t-2 border-slate-300 font-semibold">
+          <tfoot className="border-t-2 border-slate-300 dark:border-slate-600 font-semibold">
             <tr>
               <td className={td} colSpan={4}>Total (excluding cancelled)</td>
               <td className={tdR}>{money(t.total)}</td>

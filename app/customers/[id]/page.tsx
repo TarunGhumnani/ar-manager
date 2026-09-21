@@ -31,7 +31,7 @@ export default async function CustomerPage({ params, searchParams }: { params: P
     <div className="space-y-6">
       <PageTitle
         title={`${c.code} · ${c.name}`}
-        sub={<>{c.city}, {c.state} · {c.isActive ? 'Active' : <span className="font-medium text-red-700">Inactive</span>}</>}
+        sub={<>{c.city}, {c.state} · {c.isActive ? 'Active' : <span className="font-medium text-red-700 dark:text-red-400">Inactive</span>}</>}
         actions={
           <>
             {c.isActive && <Link className={btn} href={`/invoices/new?customer=${c.id}&asof=${asof}`}>New invoice</Link>}
@@ -49,7 +49,7 @@ export default async function CustomerPage({ params, searchParams }: { params: P
       />
       <Flash error={sp.error as string} ok={sp.ok as string} />
       {pos.overLimit && (
-        <div className="rounded border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
+        <div className="rounded border border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-800 dark:text-red-300">
           Over credit limit: net balance {balance(pos.netBalance)} against a limit of {money(c.creditLimit)}.
         </div>
       )}
@@ -57,25 +57,25 @@ export default async function CustomerPage({ params, searchParams }: { params: P
       <div className="grid gap-6 lg:grid-cols-3">
         <Card title="Profile">
           <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-            <dt className="text-slate-500">Contact</dt><dd>{c.contactPerson}</dd>
-            <dt className="text-slate-500">Email</dt><dd>{c.email}</dd>
-            <dt className="text-slate-500">Phone</dt><dd>{c.phone || '—'}</dd>
-            <dt className="text-slate-500">GSTIN</dt><dd>{c.gstin || '—'}</dd>
-            <dt className="text-slate-500">Credit days</dt><dd>{c.creditDays}</dd>
-            <dt className="text-slate-500">Credit limit</dt><dd>{money(c.creditLimit)}</dd>
-            <dt className="text-slate-500">TDS rate</dt><dd>{c.tdsRatePct}%</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Contact</dt><dd>{c.contactPerson}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Email</dt><dd>{c.email}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Phone</dt><dd>{c.phone || '—'}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">GSTIN</dt><dd>{c.gstin || '—'}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Credit days</dt><dd>{c.creditDays}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Credit limit</dt><dd>{money(c.creditLimit)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">TDS rate</dt><dd>{c.tdsRatePct}%</dd>
           </dl>
         </Card>
         <Card title={`Balance as at ${fmtDate(asof)}`} className="lg:col-span-2">
           <div className="grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
-            <div><div className="text-slate-500">Outstanding</div><div className="text-lg font-semibold">{money(pos.outstanding)}</div></div>
-            <div><div className="text-slate-500">Unapplied credit</div><div className="text-lg font-semibold">{money(pos.unapplied)}</div></div>
-            <div><div className="text-slate-500">Net balance</div><div className="text-lg font-semibold">{balance(pos.netBalance)}</div></div>
-            <div><div className="text-slate-500">Overdue</div><div className="text-lg font-semibold text-red-700">{money(pos.overdue)}</div></div>
+            <div><div className="text-slate-500 dark:text-slate-400">Outstanding</div><div className="text-lg font-semibold">{money(pos.outstanding)}</div></div>
+            <div><div className="text-slate-500 dark:text-slate-400">Unapplied credit</div><div className="text-lg font-semibold">{money(pos.unapplied)}</div></div>
+            <div><div className="text-slate-500 dark:text-slate-400">Net balance</div><div className="text-lg font-semibold">{balance(pos.netBalance)}</div></div>
+            <div><div className="text-slate-500 dark:text-slate-400">Overdue</div><div className="text-lg font-semibold text-red-700 dark:text-red-400">{money(pos.overdue)}</div></div>
           </div>
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
             {BUCKETS.map((b, i) => (
-              <span key={b}>{i > 0 && ' · '}{b}: <span className={b !== 'Not due' && pos.buckets[b] ? 'font-medium text-red-700' : ''}>{money(pos.buckets[b])}</span></span>
+              <span key={b}>{i > 0 && ' · '}{b}: <span className={b !== 'Not due' && pos.buckets[b] ? 'font-medium text-red-700 dark:text-red-400' : ''}>{money(pos.buckets[b])}</span></span>
             ))}
           </p>
         </Card>
@@ -90,8 +90,8 @@ export default async function CustomerPage({ params, searchParams }: { params: P
           </tr></thead>
           <tbody>
             {invs.map((p) => (
-              <tr key={p.invoice.id} className={p.status === 'Overdue' ? 'bg-red-50' : ''}>
-                <td className={td}><Link className="text-blue-700 hover:underline" href={`/invoices/${p.invoice.id}?asof=${asof}`}>{p.invoice.invoiceNo}</Link></td>
+              <tr key={p.invoice.id} className={p.status === 'Overdue' ? 'bg-red-50 dark:bg-red-950/40' : ''}>
+                <td className={td}><Link className="text-blue-700 dark:text-blue-400 hover:underline" href={`/invoices/${p.invoice.id}?asof=${asof}`}>{p.invoice.invoiceNo}</Link></td>
                 <td className={td}>{fmtDate(p.invoice.invoiceDate)}</td>
                 <td className={td}>{fmtDate(p.invoice.dueDate)}</td>
                 <td className={tdR}>{money(p.invoice.total)}</td>
@@ -107,7 +107,7 @@ export default async function CustomerPage({ params, searchParams }: { params: P
               </tr>
             ))}
             {cancelled.map((i) => (
-              <tr key={i.id} className="text-slate-400">
+              <tr key={i.id} className="text-slate-400 dark:text-slate-500">
                 <td className={td}><Link href={`/invoices/${i.id}?asof=${asof}`}>{i.invoiceNo}</Link></td>
                 <td className={td}>{fmtDate(i.invoiceDate)}</td><td className={td} /><td className={tdR}>{money(i.total)}</td>
                 <td className={td} colSpan={3} /><td className={td}><StatusBadge status="Cancelled" /></td><td className={td} />
@@ -139,7 +139,7 @@ export default async function CustomerPage({ params, searchParams }: { params: P
                   <td className={tdR}>{money(r.receipt.tdsAmount)}</td>
                   <td className={tdR}>{money(r.settlement)}</td>
                   <td className={tdR}>{money(r.allocated)}</td>
-                  <td className={`${tdR} ${r.unapplied ? 'font-semibold text-amber-700' : ''}`}>{money(r.unapplied)}</td>
+                  <td className={`${tdR} ${r.unapplied ? 'font-semibold text-amber-700 dark:text-amber-400' : ''}`}>{money(r.unapplied)}</td>
                   <td className={`${td} text-xs`}>
                     {allocs.map((a) => <div key={a.id}>{invNo.get(a.invoiceId)} · {money(a.amount)} · {fmtDate(a.allocationDate)}</div>)}
                   </td>

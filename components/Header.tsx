@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { isValidDate } from '@/lib/ar/dates';
+import ThemeToggle from './ThemeToggle';
 
 const NAV = [
   { href: '/', label: 'Overdue at a glance' },
@@ -29,10 +30,10 @@ export default function Header({ today }: { today: string }) {
   }
 
   return (
-    <header className="border-b border-slate-200 bg-white print:hidden">
+    <header className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 print:hidden">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <Link href={`/?asof=${asof}`} className="font-semibold text-slate-900">
-          AR Manager <span className="font-normal text-slate-500">· Brightwater Advisory</span>
+        <Link href={`/?asof=${asof}`} className="font-semibold text-slate-900 dark:text-slate-100">
+          AR Manager <span className="font-normal text-slate-500 dark:text-slate-400">· Brightwater Advisory</span>
         </Link>
         <nav className="flex flex-wrap gap-1 text-sm">
           {NAV.map((n) => {
@@ -41,27 +42,28 @@ export default function Header({ today }: { today: string }) {
               <Link
                 key={n.href}
                 href={`${n.href}?asof=${asof}`}
-                className={`rounded px-2 py-1 ${active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'}`}
+                className={`rounded px-2 py-1 ${active ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
               >
                 {n.label}
               </Link>
             );
           })}
         </nav>
-        <label className="ml-auto flex items-center gap-2 text-sm text-slate-600">
+        <label className="ml-auto flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
           As at
           <input
             type="date"
             value={asof}
             onChange={(e) => setAsOf(e.target.value)}
-            className="rounded border border-slate-300 px-2 py-1 text-slate-900"
+            className="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-2 py-1 text-slate-900 dark:text-slate-100"
           />
           {asof !== today && (
-            <button type="button" onClick={() => setAsOf(today)} className="text-xs text-blue-700 underline">
+            <button type="button" onClick={() => setAsOf(today)} className="text-xs text-blue-700 dark:text-blue-400 underline">
               Today
             </button>
           )}
         </label>
+        <ThemeToggle />
       </div>
     </header>
   );

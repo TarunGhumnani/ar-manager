@@ -67,18 +67,18 @@ export default async function CustomersPage({ searchParams }: { searchParams: SP
           </thead>
           <tbody>
             {rows.map((p) => (
-              <tr key={p.customer.id} className={p.customer.isActive ? '' : 'text-slate-400'}>
+              <tr key={p.customer.id} className={p.customer.isActive ? '' : 'text-slate-400 dark:text-slate-500'}>
                 <td className={td}>{p.customer.code}</td>
                 <td className={td}>
-                  <Link className="text-blue-700 hover:underline" href={`/customers/${p.customer.id}?asof=${asof}`}>{p.customer.name}</Link>
+                  <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={`/customers/${p.customer.id}?asof=${asof}`}>{p.customer.name}</Link>
                 </td>
                 <td className={td}>{p.customer.city}, {p.customer.state}</td>
-                <td className={td}>{p.customer.contactPerson}<span className="block text-xs text-slate-500">{p.customer.email}</span></td>
+                <td className={td}>{p.customer.contactPerson}<span className="block text-xs text-slate-500 dark:text-slate-400">{p.customer.email}</span></td>
                 <td className={tdR}>{p.customer.creditDays}</td>
                 <td className={tdR}>{money(p.customer.creditLimit)}</td>
                 <td className={tdR}>{balance(p.netBalance)}</td>
-                <td className={`${tdR} ${p.overdue > 0 ? 'text-red-700' : ''}`}>{money(p.overdue)}</td>
-                <td className={`${tdR} ${p.overLimit ? 'font-semibold text-red-700' : ''}`}>
+                <td className={`${tdR} ${p.overdue > 0 ? 'text-red-700 dark:text-red-400' : ''}`}>{money(p.overdue)}</td>
+                <td className={`${tdR} ${p.overLimit ? 'font-semibold text-red-700 dark:text-red-400' : ''}`}>
                   {p.limitUsedPct === null ? '—' : `${p.limitUsedPct.toFixed(1)}%`}
                 </td>
                 <td className={td}>

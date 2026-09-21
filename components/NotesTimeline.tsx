@@ -9,22 +9,22 @@ export default function NotesTimeline({ notes, data, asof, back }: { notes: Note
   const promises = new Map(promiseStatuses(data, asof).map((p) => [p.note.id, p]));
   const invNo = new Map(data.invoices.map((i) => [i.id, i.invoiceNo]));
   const visible = notes.filter((n) => n.noteDate <= asof).sort((a, b) => (a.noteDate < b.noteDate ? 1 : a.noteDate > b.noteDate ? -1 : b.id - a.id));
-  if (!visible.length) return <p className="text-sm text-slate-500">No notes yet.</p>;
+  if (!visible.length) return <p className="text-sm text-slate-500 dark:text-slate-400">No notes yet.</p>;
   return (
-    <ol className="space-y-3 border-l-2 border-slate-200 pl-4 text-sm">
+    <ol className="space-y-3 border-l-2 border-slate-200 dark:border-slate-700 pl-4 text-sm">
       {visible.map((n) => {
         const p = promises.get(n.id);
         const due = n.followUpDate && !n.followUpDone && n.followUpDate <= asof;
         return (
           <li key={n.id}>
-            <div className="text-xs text-slate-500">
+            <div className="text-xs text-slate-500 dark:text-slate-400">
               {fmtDate(n.noteDate)} · {n.noteType}
-              {n.invoiceId && <> · <Link className="text-blue-700 hover:underline" href={`/invoices/${n.invoiceId}?asof=${asof}`}>{invNo.get(n.invoiceId)}</Link></>}
+              {n.invoiceId && <> · <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={`/invoices/${n.invoiceId}?asof=${asof}`}>{invNo.get(n.invoiceId)}</Link></>}
             </div>
-            <p className="text-slate-800">{n.body}</p>
+            <p className="text-slate-800 dark:text-slate-200">{n.body}</p>
             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
               {n.followUpDate && (
-                <span className={due ? 'font-medium text-red-700' : 'text-slate-600'}>
+                <span className={due ? 'font-medium text-red-700 dark:text-red-400' : 'text-slate-600 dark:text-slate-400'}>
                   Follow up {fmtDate(n.followUpDate)}{n.followUpDone ? ' (done)' : due ? ' (due)' : ''}
                 </span>
               )}

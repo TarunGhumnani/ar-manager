@@ -35,7 +35,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
     <div className="space-y-6">
       <PageTitle
         title={`Invoice ${inv.invoiceNo}`}
-        sub={<><Link className="text-blue-700 hover:underline" href={`/customers/${customer.id}?asof=${asof}`}>{customer.name}</Link> · {inv.description}</>}
+        sub={<><Link className="text-blue-700 dark:text-blue-400 hover:underline" href={`/customers/${customer.id}?asof=${asof}`}>{customer.name}</Link> · {inv.description}</>}
         actions={
           !inv.isCancelled && (
             <>
@@ -58,7 +58,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
       />
       <Flash error={sp.error as string} ok={sp.ok as string} />
       {inv.invoiceDate > asof && (
-        <div className="rounded border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+        <div className="rounded border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-3 py-2 text-sm text-amber-900 dark:text-amber-200">
           This invoice is dated {fmtDate(inv.invoiceDate)}, after the as-at date, so it does not exist yet at {fmtDate(asof)}.
         </div>
       )}
@@ -66,15 +66,15 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title="Tax breakdown">
           <dl className="grid grid-cols-2 gap-y-1 text-sm">
-            <dt className="text-slate-500">Invoice date</dt><dd>{fmtDate(inv.invoiceDate)}</dd>
-            <dt className="text-slate-500">Due date</dt><dd>{fmtDate(inv.dueDate)}</dd>
-            <dt className="text-slate-500">Taxable value</dt><dd className="tabular-nums">{money(inv.taxableValue)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Invoice date</dt><dd>{fmtDate(inv.invoiceDate)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Due date</dt><dd>{fmtDate(inv.dueDate)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Taxable value</dt><dd className="tabular-nums">{money(inv.taxableValue)}</dd>
             {inv.igst ? (
-              <><dt className="text-slate-500">IGST @ {inv.gstRatePct}%</dt><dd className="tabular-nums">{money(inv.igst)}</dd></>
+              <><dt className="text-slate-500 dark:text-slate-400">IGST @ {inv.gstRatePct}%</dt><dd className="tabular-nums">{money(inv.igst)}</dd></>
             ) : (
               <>
-                <dt className="text-slate-500">CGST @ {inv.gstRatePct / 2}%</dt><dd className="tabular-nums">{money(inv.cgst)}</dd>
-                <dt className="text-slate-500">SGST @ {inv.gstRatePct / 2}%</dt><dd className="tabular-nums">{money(inv.sgst)}</dd>
+                <dt className="text-slate-500 dark:text-slate-400">CGST @ {inv.gstRatePct / 2}%</dt><dd className="tabular-nums">{money(inv.cgst)}</dd>
+                <dt className="text-slate-500 dark:text-slate-400">SGST @ {inv.gstRatePct / 2}%</dt><dd className="tabular-nums">{money(inv.sgst)}</dd>
               </>
             )}
             <dt className="font-semibold">Total</dt><dd className="font-semibold tabular-nums">{money(inv.total)}</dd>
@@ -86,18 +86,18 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
               <StatusBadge status={status} />
               {pos?.isPartPaid && <Label tone="slate">part-paid</Label>}
               {inv.isDisputed && <Label>disputed</Label>}
-              {pos?.status === 'Overdue' && <span className="ml-2 text-sm text-red-700">{pos.daysPastDue} days late · bucket {pos.bucket}</span>}
+              {pos?.status === 'Overdue' && <span className="ml-2 text-sm text-red-700 dark:text-red-400">{pos.daysPastDue} days late · bucket {pos.bucket}</span>}
             </p>
           )}
           {pos && (
             <dl className="grid grid-cols-2 gap-y-1 text-sm">
-              <dt className="text-slate-500">Total</dt><dd className="tabular-nums">{money(inv.total)}</dd>
-              <dt className="text-slate-500">Received</dt><dd className="tabular-nums">{money(pos.received)}</dd>
-              <dt className="text-slate-500">Credited</dt><dd className="tabular-nums">{money(pos.credited)}</dd>
+              <dt className="text-slate-500 dark:text-slate-400">Total</dt><dd className="tabular-nums">{money(inv.total)}</dd>
+              <dt className="text-slate-500 dark:text-slate-400">Received</dt><dd className="tabular-nums">{money(pos.received)}</dd>
+              <dt className="text-slate-500 dark:text-slate-400">Credited</dt><dd className="tabular-nums">{money(pos.credited)}</dd>
               <dt className="font-semibold">Outstanding</dt><dd className="font-semibold tabular-nums">{money(pos.outstanding)}</dd>
             </dl>
           )}
-          {inv.isCancelled && <p className="text-sm text-slate-500">Cancelled invoices are left out of every total.</p>}
+          {inv.isCancelled && <p className="text-sm text-slate-500 dark:text-slate-400">Cancelled invoices are left out of every total.</p>}
         </Card>
       </div>
 
@@ -106,7 +106,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
           <thead><tr><th className={th}>Receipt</th><th className={th}>Allocation date</th><th className={thR}>Amount</th><th className={th} /></tr></thead>
           <tbody>
             {allocs.map((a) => (
-              <tr key={a.id} className={a.allocationDate > asof ? 'text-slate-400' : ''}>
+              <tr key={a.id} className={a.allocationDate > asof ? 'text-slate-400 dark:text-slate-500' : ''}>
                 <td className={td}>{receiptNo.get(a.receiptId)}</td>
                 <td className={td}>{fmtDate(a.allocationDate)}{a.allocationDate > asof && ' (after as-at date)'}</td>
                 <td className={tdR}>{money(a.amount)}</td>
@@ -130,8 +130,8 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
             <thead><tr><th className={th}>Number</th><th className={th}>Date</th><th className={thR}>Taxable</th><th className={thR}>GST</th><th className={thR}>Total</th></tr></thead>
             <tbody>
               {cns.map((c) => (
-                <tr key={c.id} className={c.creditNoteDate > asof ? 'text-slate-400' : ''}>
-                  <td className={td}>{c.creditNoteNo}<span className="block text-xs text-slate-500">{c.reason}</span></td>
+                <tr key={c.id} className={c.creditNoteDate > asof ? 'text-slate-400 dark:text-slate-500' : ''}>
+                  <td className={td}>{c.creditNoteNo}<span className="block text-xs text-slate-500 dark:text-slate-400">{c.reason}</span></td>
                   <td className={td}>{fmtDate(c.creditNoteDate)}</td>
                   <td className={tdR}>{money(c.taxableValue)}</td>
                   <td className={tdR}>{money(c.cgst + c.sgst + c.igst)}</td>

@@ -68,7 +68,7 @@ export default async function NewReceipt({ searchParams }: { searchParams: SP })
 
       {ready && customer && (
         <Card title={`2. Allocate to ${customer.name}'s open invoices (oldest first)`}>
-          <p className="mb-3 text-sm text-slate-600">
+          <p className="mb-3 text-sm text-slate-600 dark:text-slate-400">
             Receipt {nextNumber('receipt', data, date)} · {fmtDate(date)} · bank {money(bank!)} + TDS {money(tds!)} = <b>{money(settlement)}</b>.
             Edit the suggestion as needed; anything not allocated stays as unapplied credit.
           </p>
@@ -90,9 +90,9 @@ export default async function NewReceipt({ searchParams }: { searchParams: SP })
                 }))}
               />
             ) : (
-              <p className="text-sm text-slate-600">No open invoices dated on or before {fmtDate(date)}. The whole amount will be kept as unapplied credit (an advance).</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">No open invoices dated on or before {fmtDate(date)}. The whole amount will be kept as unapplied credit (an advance).</p>
             )}
-            {!reference && <p className="mt-3 text-sm text-red-700">Enter a reference in step 1 before saving.</p>}
+            {!reference && <p className="mt-3 text-sm text-red-700 dark:text-red-400">Enter a reference in step 1 before saving.</p>}
             <button className={`${btn} mt-4`} disabled={!reference}>Save receipt and allocations</button>
           </form>
         </Card>

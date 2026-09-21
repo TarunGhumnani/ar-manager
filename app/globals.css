@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
+/* Dark mode follows a `dark` class on <html>, set by lib/theme.ts (system preference unless the user picks one). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html.dark {
+  color-scheme: dark; /* native date pickers, selects and scrollbars */
 }
 
 @page {

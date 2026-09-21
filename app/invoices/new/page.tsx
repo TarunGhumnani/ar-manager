@@ -70,23 +70,23 @@ export default async function NewInvoice({ searchParams }: { searchParams: SP })
       {preview && customer && (
         <Card title="Preview">
           <dl className="grid max-w-md grid-cols-2 gap-y-1 text-sm">
-            <dt className="text-slate-500">Invoice number</dt><dd className="font-medium">{preview.no}</dd>
-            <dt className="text-slate-500">Customer</dt><dd>{customer.name}</dd>
-            <dt className="text-slate-500">Invoice date</dt><dd>{fmtDate(date)}</dd>
-            <dt className="text-slate-500">Due date</dt><dd>{fmtDate(preview.due)} ({customer.creditDays} days)</dd>
-            <dt className="text-slate-500">Taxable value</dt><dd className="tabular-nums">{money(taxable!)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Invoice number</dt><dd className="font-medium">{preview.no}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Customer</dt><dd>{customer.name}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Invoice date</dt><dd>{fmtDate(date)}</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Due date</dt><dd>{fmtDate(preview.due)} ({customer.creditDays} days)</dd>
+            <dt className="text-slate-500 dark:text-slate-400">Taxable value</dt><dd className="tabular-nums">{money(taxable!)}</dd>
             {preview.gst.igst ? (
-              <><dt className="text-slate-500">IGST @ {rate}%</dt><dd className="tabular-nums">{money(preview.gst.igst)}</dd></>
+              <><dt className="text-slate-500 dark:text-slate-400">IGST @ {rate}%</dt><dd className="tabular-nums">{money(preview.gst.igst)}</dd></>
             ) : (
               <>
-                <dt className="text-slate-500">CGST @ {Number(rate) / 2}%</dt><dd className="tabular-nums">{money(preview.gst.cgst)}</dd>
-                <dt className="text-slate-500">SGST @ {Number(rate) / 2}%</dt><dd className="tabular-nums">{money(preview.gst.sgst)}</dd>
+                <dt className="text-slate-500 dark:text-slate-400">CGST @ {Number(rate) / 2}%</dt><dd className="tabular-nums">{money(preview.gst.cgst)}</dd>
+                <dt className="text-slate-500 dark:text-slate-400">SGST @ {Number(rate) / 2}%</dt><dd className="tabular-nums">{money(preview.gst.sgst)}</dd>
               </>
             )}
             <dt className="font-semibold">Total</dt><dd className="font-semibold tabular-nums">{money(preview.total)}</dd>
           </dl>
           {preview.newBalance > preview.limit && (
-            <div className="mt-3 rounded border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <div className="mt-3 rounded border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-3 py-2 text-sm text-amber-900 dark:text-amber-200">
               Warning: this invoice takes {customer.name}&apos;s net balance to {balance(preview.newBalance)}, above the credit limit of{' '}
               {money(preview.limit)}. You can still save it.
             </div>

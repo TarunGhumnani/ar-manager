@@ -69,14 +69,14 @@ export default async function Dashboard({ searchParams }: { searchParams: SP }) 
           </thead>
           <tbody>
             {ageingRows.map((c) => (
-              <tr key={c.customer.id} className={c.overLimit ? 'bg-red-50/50' : ''}>
+              <tr key={c.customer.id} className={c.overLimit ? 'bg-red-50/50 dark:bg-red-950/30' : ''}>
                 <td className={td}>
-                  <Link className="text-blue-700 hover:underline" href={q(`/invoices?customer=${c.customer.id}&status=open`)}>
+                  <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={q(`/invoices?customer=${c.customer.id}&status=open`)}>
                     {c.customer.code} · {c.customer.name}
                   </Link>
                 </td>
                 {BUCKETS.map((b) => (
-                  <td key={b} className={`${tdR} ${b !== 'Not due' && c.buckets[b] ? 'text-red-700' : ''}`}>
+                  <td key={b} className={`${tdR} ${b !== 'Not due' && c.buckets[b] ? 'text-red-700 dark:text-red-400' : ''}`}>
                     {c.buckets[b] ? money(c.buckets[b]) : '–'}
                   </td>
                 ))}
@@ -86,7 +86,7 @@ export default async function Dashboard({ searchParams }: { searchParams: SP }) 
               </tr>
             ))}
           </tbody>
-          <tfoot className="border-t-2 border-slate-300 font-semibold">
+          <tfoot className="border-t-2 border-slate-300 dark:border-slate-600 font-semibold">
             <tr>
               <td className={td}>Total</td>
               {BUCKETS.map((b) => <td key={b} className={tdR}>{money(totals[b])}</td>)}
@@ -112,7 +112,7 @@ export default async function Dashboard({ searchParams }: { searchParams: SP }) 
             </thead>
             <tbody>
               {overdueInvs.map((p) => (
-                <tr key={p.invoice.id} className="bg-red-50 text-red-900">
+                <tr key={p.invoice.id} className="bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200">
                   <td className={td}>
                     <Link className="hover:underline" href={q(`/invoices/${p.invoice.id}`)}>{p.invoice.invoiceNo}</Link>
                     {p.isPartPaid && <Label tone="slate">part-paid</Label>}
@@ -132,35 +132,35 @@ export default async function Dashboard({ searchParams }: { searchParams: SP }) 
         <Card title="Needs attention">
           <div className="space-y-4 text-sm">
             <div>
-              <h3 className="font-medium text-slate-800">Over credit limit</h3>
+              <h3 className="font-medium text-slate-800 dark:text-slate-200">Over credit limit</h3>
               {overLimit.length ? overLimit.map((c) => (
                 <p key={c.customer.id}>
-                  <Link className="text-blue-700 hover:underline" href={q(`/customers/${c.customer.id}`)}>{c.customer.name}</Link>:{' '}
+                  <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={q(`/customers/${c.customer.id}`)}>{c.customer.name}</Link>:{' '}
                   {balance(c.netBalance)} vs limit {money(c.customer.creditLimit)}
                 </p>
-              )) : <p className="text-slate-500">None.</p>}
+              )) : <p className="text-slate-500 dark:text-slate-400">None.</p>}
             </div>
             <div>
-              <h3 className="font-medium text-slate-800">Broken promises</h3>
+              <h3 className="font-medium text-slate-800 dark:text-slate-200">Broken promises</h3>
               {broken.length ? broken.map((p) => (
                 <p key={p.note.id}>
-                  <Link className="text-blue-700 hover:underline" href={q(`/customers/${p.note.customerId}`)}>
+                  <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={q(`/customers/${p.note.customerId}`)}>
                     {custName.get(p.note.customerId)?.name}
                   </Link>: {money(p.promiseAmount)} by {fmtDate(p.promiseDate)}, received {money(p.received)}{' '}
                   <StatusBadge status="Broken" />
                 </p>
-              )) : <p className="text-slate-500">None.</p>}
+              )) : <p className="text-slate-500 dark:text-slate-400">None.</p>}
             </div>
             <div>
-              <h3 className="font-medium text-slate-800">Follow-ups due</h3>
+              <h3 className="font-medium text-slate-800 dark:text-slate-200">Follow-ups due</h3>
               {followUps.length ? followUps.map((n) => (
                 <div key={n.id} className="mb-2 flex items-start justify-between gap-2">
                   <p>
                     <span className="font-medium">{fmtDate(n.followUpDate)}</span> ·{' '}
-                    <Link className="text-blue-700 hover:underline" href={q(`/customers/${n.customerId}`)}>
+                    <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={q(`/customers/${n.customerId}`)}>
                       {custName.get(n.customerId)?.name}
                     </Link>
-                    <span className="block text-slate-600">{n.body}</span>
+                    <span className="block text-slate-600 dark:text-slate-400">{n.body}</span>
                   </p>
                   <form action={markFollowUpDone}>
                     <input type="hidden" name="id" value={n.id} />
@@ -168,17 +168,17 @@ export default async function Dashboard({ searchParams }: { searchParams: SP }) 
                     <button className={`${btnLight} whitespace-nowrap text-xs`}>Done</button>
                   </form>
                 </div>
-              )) : <p className="text-slate-500">None.</p>}
+              )) : <p className="text-slate-500 dark:text-slate-400">None.</p>}
             </div>
             <div>
-              <h3 className="font-medium text-slate-800">Unapplied credit to allocate</h3>
+              <h3 className="font-medium text-slate-800 dark:text-slate-200">Unapplied credit to allocate</h3>
               {waiting.length ? waiting.map((r) => (
                 <p key={r.receipt.id}>
-                  <Link className="text-blue-700 hover:underline" href={q(`/customers/${r.receipt.customerId}`)}>
+                  <Link className="text-blue-700 dark:text-blue-400 hover:underline" href={q(`/customers/${r.receipt.customerId}`)}>
                     {custName.get(r.receipt.customerId)?.name}
                   </Link>: {money(r.unapplied)} from {r.receipt.receiptNo}
                 </p>
-              )) : <p className="text-slate-500">None.</p>}
+              )) : <p className="text-slate-500 dark:text-slate-400">None.</p>}
             </div>
           </div>
         </Card>
