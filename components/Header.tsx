@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { isValidDate } from '@/lib/ar/dates';
 
 const NAV = [
   { href: '/', label: 'Overdue at a glance' },
@@ -15,7 +16,8 @@ export default function Header({ today }: { today: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
-  const asof = params.get('asof') ?? today;
+  const raw = params.get('asof');
+  const asof = raw && isValidDate(raw) ? raw : today; // same fallback as lib/asof on the server
 
   function setAsOf(v: string) {
     const next = new URLSearchParams(params.toString());
